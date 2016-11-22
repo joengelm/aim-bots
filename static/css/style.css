@@ -1,0 +1,249 @@
+body {
+	margin: 0;
+  	overflow: hidden;
+}
+
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.hidden {
+    display: none;
+}
+
+.clearfix:after {
+	 visibility: hidden;
+	 display: block;
+	 font-size: 0;
+	 content: " ";
+	 clear: both;
+	 height: 0;
+}
+
+.clearfix { display: inline-block; }
+/* start commented backslash hack \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* close commented backslash hack */
+
+.dragbar {
+	width:100%;
+	height: 20px;
+	position:relative;
+	background-color: #00006f;
+	color: white;
+	font-family: "Microsoft Sans Serif", "MS Sans Serif", Arial, sans-serif;
+	font-size: .8em;
+	padding: 2px;
+	box-sizing: border-box;
+}
+
+.dragbar .right {
+	float: right;
+}
+
+.dragbar:hover {
+	cursor:pointer;
+}
+
+.dragbar-icon {
+	float: left;
+	width: 14px;
+	height: 14px;
+}
+
+.title {
+	float: left;
+	padding-left: 4px;
+}
+
+.window {
+	position: absolute;
+	display: inline-block;
+	height: auto;
+	width: auto;
+	background-color: #bdbdbd;
+	border: 2px solid #bdbdbd;
+	z-index: 10;
+}
+
+.top-window {
+	z-index: 100;
+}
+
+#aim {
+	position: absolute;
+	top: 5%;
+	left: 20%;
+}
+
+#chatbox {
+	position: absolute;
+	top: 52px;
+	left: 10px;
+	height: 282px;
+	width: 341px;
+}
+
+.chattext {
+	margin: 2px 6px;
+	font-family: monospace;
+}
+
+.chatname1 {
+	color: red;
+}
+
+.chatname2 {
+	color: blue;
+}
+
+#desktop {
+	background-color: #0E6E6C;
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+#icons {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	z-index: 5;
+}
+
+.icon {
+	width: 80px;
+	text-align: center;
+}
+
+.iconText {
+	color: white;
+	font-size: 12px;
+	font-weight: 300;
+	font-family: "Microsoft Sans Serif", "MS Sans Serif", Arial, sans-serif;
+}
+
+.selectedIcon {
+	border: 1px dashed black;
+}
+
+#myComputer {
+	position: relative;
+	width: auto;
+	height: auto;
+}
+
+.windowIconArea {
+	position: absolute;
+	top: 40px;
+	left: 1px;
+	table-layout: fixed;
+}
+
+.win2x3 {
+	width: 248px;
+}
+
+.win2x4 {
+	width: 340px;
+}
+
+.windowIconArea td {
+	width: 80px;
+}
+
+.windowIcon {
+	width: 80px;
+	height: 80px;
+}
+
+.windowIcon:hover {
+	cursor: pointer;
+}
+
+#taskManager {
+	width: auto;
+	height: auto;
+	position: absolute;
+}
+
+#scoreWindow {
+	width: auto;
+	height: auto;
+	position: absolute;
+}
+
+#paint {
+	width: auto;
+	height: auto;
+	position: absolute;
+}
+
+#taskbar {
+	clear: both;
+    position: absolute;
+    z-index: 1000;
+    height: 27px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #CAC6BC;
+}
+
+#taskbarAccent {
+	height: 1px;
+	width: 100%;
+	background-color: white;
+}
+
+.taskbarItem {
+	display: inline-block;
+}
+
+#startButton {
+	float: left;
+}
+
+#clock {
+	float: right;
+}
+
+.is-disabled {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: 20;
+	pointer-events: none;
+}
+
+.holder {
+	position: absolute;
+	width: 618px;
+	height: 411px;
+	top: 45px;
+	left: 62px;
+}
+
+.bluescreen {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(0,0,170);
+	z-index: 100000;
+}
+
+.bluescreen img {
+	height: 100%;
+	width: auto;
+	display: block;
+	margin: auto;
+	z-index: 100001;
+}
