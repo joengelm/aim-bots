@@ -11,7 +11,7 @@ const updateScroll = () => {
     }
 }
 
-$("#yourDivID").on('scroll', () => {
+$("#chatbox").on('scroll', () => {
     scrolled = true;
 });
 
