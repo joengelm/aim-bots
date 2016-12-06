@@ -26,16 +26,20 @@ def create_bot_with_id(bot_id):
     return bot
 
 def get_message(bot_id, prompt='Hello.'):
+    bot_id = bot_id
     if bot_id not in id_to_bot:
         create_bot_with_id(bot_id)
 
     bot = id_to_bot[bot_id]
     msg = bot.ask(prompt).encode('utf-8')
 
-    print bot_id + ': ' + msg
+    print bot_id + u': ' + msg.decode('utf-8')
 
     return msg
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+
+    from gevent.wsgi import WSGIServer
+    http_server = WSGIServer(('0.0.0.0', port), app)
+    http_server.serve_forever()
