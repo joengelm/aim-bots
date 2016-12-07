@@ -35,6 +35,17 @@ body {
 	z-index: 3;
 }
 
+.closeButton {
+	position: absolute;
+	border: none;
+	cursor: pointer;
+	top: 6px;
+	right: 6px;
+	height: 14px;
+	width: 16px;
+	background: transparent;
+}
+
 .aim {
 	position: absolute;
 	top: 5%;
@@ -86,6 +97,10 @@ body {
 	overflow-x: hidden;
 }
 
+#buddyList::-webkit-scrollbar { 
+    display: none; 
+}
+
 .buddyTitle {
 	font-family: monospace;
 	font-weight: bold;
@@ -99,7 +114,7 @@ mark {
 .buddyName {
 	cursor: pointer;
 	font-family: monospace;
-	margin: 2px 22px;
+	margin: 2px 28px;
 }
 
 #desktop {

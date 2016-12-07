@@ -1,8 +1,8 @@
-const adjectives = ['yellow', 'savvy', 'wild', 'crazy', 'dead', 'rich', 'poor', 'happy', 'musical', 'purring', 'bad', 'good', 'old', 'yung', 'mean', 'funny', 'b4d', 'gr33n', 'blue', 'red', 'ded', '', '', '', '', '', '', '', '', '', ''];
-const nouns = ['joey', 'sushi', 'mikey', 'serg', 'felip', 'cat', 'kitten', 'burrito', 'fangurl', 'fanboi', 'baseb4llr', 'erikaa', 'emily', 'willy', 'zombie', 'sock', 'witch', 'wizard', 'boy', 'girl', 'woman', 'man', 'elf', 'hunter', '', '', '', '', '', '', '', ''];
+const adjectives = ['yellow', 'savvy', 'wild', 'crazy', 'dead', 'rich', 'jazzy', 'happy', 'musical', 'purring', 'bad', 'good', 'old', 'yung', 'mean', 'funny', 'b4d', 'gr33n', 'blue', 'red', 'ded', '', '', '', '', '', '', '', '', '', ''];
+const nouns = ['joey', 'sushi', 'mikey', 'serg', 'felip', 'jazz', 'cat', 'kitten', 'burrito', 'fangurl', 'fanboi', 'baseb4llr', 'erikaa', 'emily', 'willy', 'zombie', 'sock', 'witch', 'wizard', 'boy', 'girl', 'woman', 'man', 'elf', 'hunter', '', '', '', '', '', '', '', ''];
 const colors = ['blue', 'red', 'green', 'purple', 'violet', 'brown'];
 const voices = ['UK English Male', 'UK English Female', 'US English Female'];
-const prompts = ['What\'s your favorite TV show?', 'Do you like sushi?', 'I don\'t like talking to strangers.', 'the internet scares me', 'i need a friend', 'where are you from?', 'a/s/l?', 'Will you marry me?', 'tell me a bedtime story', 'how are you?', 'What is your social security number?', 'do i know u?', 'what is today\'s date?', 'tell me a joke', 'I don\'t like you.', 'i\'m sleepy', 'hey ;)', 'sup', 'yo', 'Howdy!', 'hallo', 'Guten Tag.', 'Hola.', 'Bonjour.', 'Good morning, sunshine.', 'ayy lmao'];
+const prompts = ['What\'s your favorite TV show?', 'Do you like sushi?', 'I don\'t like talking to strangers.', 'The internet scares me', 'I need a friend', 'Where are you from?', 'A/s/l?', 'Will you marry me?', 'Tell me a bedtime story', 'How are you?', 'What is your social security number?', 'Do i know u?', 'What is today\'s date?', 'Tell me a joke', 'I don\'t like you.', 'I\'m sleepy', 'Hey ;)', 'Sup', 'Yo', 'Howdy!', 'Hallo', 'Guten Tag.', 'Hola.', 'Bonjour.', 'Good morning, sunshine.', 'ayy lmao', 'Buon giorno!'];
 
 let namesToBots = {};
 let allBots = [];
@@ -11,14 +11,18 @@ let buddyCount = 0;
 let totalBuddies = 0;
 
 let topIndex = 5;
-const bringToTop = (event) => {
-	document.getElementById(event.data.id).style.zIndex = topIndex + 1;
+const bringToTopById = (id) => {
 	topIndex += 1;
+	document.getElementById(id).style.zIndex = topIndex;
 };
 
-const bringToTopById = (id) => {
-	document.getElementById(id).style.zIndex = topIndex + 1;
-	topIndex += 1;
+const bringToTop = (event) => {
+	bringToTopById(event.data.id);
+};
+
+const closeWindow = (event) => {
+	const element = document.getElementById(event.data.id);
+	element.parentNode.removeChild(element);
 };
 
 const updateScroll = (chatbox) => {
@@ -28,9 +32,11 @@ const updateScroll = (chatbox) => {
 
 const addMessage = (bot, message, chatbox) => {
 	$('#' + chatbox).append('<p class="chattext"><span style="color:' + bot.color + '">' + bot.name + '</span>: ' + message + '</p>');	
-	console.log('appended ' + message + ' for ' + bot.name);
 	setTimeout(updateScroll, 100, chatbox);
-	responsiveVoice.speak(message, bot.voice);
+
+	if (document.getElementById(chatbox + 'Window').style.zIndex == topIndex) {
+		responsiveVoice.speak(message, bot.voice);
+	}
 };
 
 const responseFromBot = (bot, prompt, callback) => {
@@ -61,10 +67,11 @@ const makeChatWith = (bot1, bot2) => {
 	const chatbox = 'chatbox' + bot1.name + bot2.name;
 	const top = random(2, 30).toString();
 	const left = random(5, 45).toString();
-	const chatWindowHTML = '<div id="' + chatbox + 'Window" style="position: absolute; top: ' + top + '%; left: ' + left + '%;" class="noselect"><img src="static/img/aim.png"><div class="chatbox" id="' + chatbox + '"></div></div>';
+	const chatWindowHTML = '<div id="' + chatbox + 'Window" style="position: absolute; top: ' + top + '%; left: ' + left + '%;" class="noselect"><img src="static/img/aim.png"><button class="closeButton" id="' + chatbox + 'CloseButton"></button><div class="chatbox" id="' + chatbox + '"></div></div>';
 	$("#desktop").append(chatWindowHTML);
 	$("#" + chatbox + "Window").draggable();
 	$("#" + chatbox + "Window").on('mousedown', { id: chatbox + 'Window' }, bringToTop);
+	$("#" + chatbox + "CloseButton").on('click', { id: chatbox + 'Window' }, closeWindow);
 	bringToTopById(chatbox + 'Window');
 	chat(bot1, bot2, choose(prompts), chatbox);
 };
@@ -172,10 +179,12 @@ const makeDistinctBot = (otherBot) => {
 };
 
 const addNewBuddy = () => {
-	const bot = makeDistinctBot(emptyBot());
-	addToBuddyList([bot]);
+	if (buddyCount < totalBuddies) {
+		const bot = makeDistinctBot(emptyBot());
+		addToBuddyList([bot]);
 
-	const delay = random(15000, 60000);
+		const delay = random(15000, 60000);
+	}
 	setTimeout(addNewBuddy, delay);
 }
 
