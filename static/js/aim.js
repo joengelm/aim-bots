@@ -1,8 +1,12 @@
-const adjectives = ['yellow', 'savvy', 'wild', 'crazy', 'dead', 'rich', 'jazzy', 'happy', 'musical', 'purring', 'bad', 'good', 'old', 'yung', 'mean', 'funny', 'b4d', 'gr33n', 'blue', 'red', 'ded', '', '', '', '', '', '', '', '', '', ''];
-const nouns = ['joey', 'sushi', 'mikey', 'serg', 'felip', 'jazz', 'cat', 'kitten', 'burrito', 'fangurl', 'fanboi', 'baseb4llr', 'erikaa', 'emily', 'willy', 'zombie', 'sock', 'witch', 'wizard', 'boy', 'girl', 'woman', 'man', 'elf', 'hunter', '', '', '', '', '', '', '', ''];
-const colors = ['blue', 'red', 'green', 'purple', 'violet', 'brown'];
+const adjectives = ['yellow', 'savvy', 'wild', 'crazy', 'dead', 'rich', 'jazzy', 'happy', 'musical', 'purring', 'bad', 'good', 'old', 'yung', 'mean', 'funny', 'b4d', 'gr33n', 'blue', 'red', 'ded', 'deadass', 'super', 'super', 'cabbage', '', '', '', '', '', '', '', '', '', '', '', ''];
+const nouns = ['joey', 'sushi', 'mikey', 'serg', 'felip', 'jazz', 'cat', 'kitten', 'burrito', 'fangurl', 'fanboi', 'baseb4llr', 'erikaa', 'emily', 'willy', 'zombie', 'sock', 'witch', 'wizard', 'boy', 'girl', 'woman', 'man', 'elf', 'hunter', 'fan', 'llama', 'alpaca', 'king', 'queen', 'prince', 'princess', 'todd', 'will', 'emily', 'emilyy', 'jessica', 'rachel', 'rach', 'hannah', 'joker', '', '', '', '', '', '', '', '', ''];
+const colors = ['blue', 'red', 'green', 'purple', 'violet', 'brown', 'maroon', 'lime', 'darkgreen', 'firebrick', 'orange', 'sienna', 'cornflowerblue', 'teal', 'gold'];
 const voices = ['UK English Male', 'UK English Female', 'US English Female'];
-const prompts = ['What\'s your favorite TV show?', 'Do you like sushi?', 'I don\'t like talking to strangers.', 'The internet scares me', 'I need a friend', 'Where are you from?', 'A/s/l?', 'Will you marry me?', 'Tell me a bedtime story', 'How are you?', 'What is your social security number?', 'Do i know u?', 'What is today\'s date?', 'Tell me a joke', 'I don\'t like you.', 'I\'m sleepy', 'Hey ;)', 'Sup', 'Yo', 'Howdy!', 'Hallo', 'Guten Tag.', 'Hola.', 'Bonjour.', 'Good morning, sunshine.', 'ayy lmao', 'Buon giorno!'];
+const prompts = ['What\'s your favorite TV show?', 'What are you doing?', 'I don\'t like you.', 'What is the meaning of life?', 'I\'m playing Sim City.', 'Do you play Roller Coaster Tycoon?', 'Where are you from?', 'Do you like sushi?', 'I don\'t like talking to strangers.', 'The internet scares me', 'I need a friend', 'Where are you from?', 'A/s/l?', 'Will you marry me?', 'Tell me a bedtime story', 'How are you?', 'What is your social security number?', 'Do i know u?', 'What is today\'s date?', 'Tell me a joke', 'I don\'t like you.', 'I\'m sleepy', 'Hey ;)', 'Sup', 'Yo', 'Howdy!', 'Hallo', 'Guten Tag.', 'Hola.', 'Bonjour.', 'Good morning, sunshine.', 'ayy lmao', 'Buon giorno!', 'Have you been to Olive Garden?', 'I hate my parents', 'My girlfriend dumped me', 'My boyfriend dumped me', 'I\'m so hungry!!', 'I\'m STARVING', 'U up?', 'You up?', '...', '...hi.', 'HEY.', 'Como estas?', 'Comment allez-vous?', 'Wie geht\'s?', 'Ca va?', 'Quoi de neuf ???', 'Ugh.', '*opens eyes*', '*awkwardly stares*', '*stares deeply into your eyes*'];
+
+const messageSound = new Audio('static/sound/im.mp3');
+const buddyInSound = new Audio('static/sound/buddy_in.mp3');
+const buddyOutSound = new Audio('static/sound/buddy_out.mp3');
 
 let namesToBots = {};
 let allBots = [];
@@ -21,6 +25,7 @@ const bringToTop = (event) => {
 };
 
 const closeWindow = (event) => {
+	buddyOutSound.play();
 	const element = document.getElementById(event.data.id);
 	element.parentNode.removeChild(element);
 };
@@ -69,11 +74,15 @@ const makeChatWith = (bot1, bot2) => {
 	const left = random(5, 45).toString();
 	const chatWindowHTML = '<div id="' + chatbox + 'Window" style="position: absolute; top: ' + top + '%; left: ' + left + '%;" class="noselect"><img src="static/img/aim.png"><button class="closeButton" id="' + chatbox + 'CloseButton"></button><div class="chatbox" id="' + chatbox + '"></div></div>';
 	$("#desktop").append(chatWindowHTML);
+
 	$("#" + chatbox + "Window").draggable();
 	$("#" + chatbox + "Window").on('mousedown', { id: chatbox + 'Window' }, bringToTop);
 	$("#" + chatbox + "CloseButton").on('click', { id: chatbox + 'Window' }, closeWindow);
+
 	bringToTopById(chatbox + 'Window');
-	chat(bot1, bot2, choose(prompts), chatbox);
+	messageSound.play();
+
+	setTimeout(() => { chat(bot1, bot2, choose(prompts), chatbox); }, 1000);
 };
 
 const handleBuddyClick = (event) => {
@@ -90,6 +99,7 @@ const addToBuddyList = (bots) => {
 	for (bot of bots) {
 		$("#buddyList").append('<p class="buddyName ' + bot.name + '">' + bot.name + '</p>');
 		$("." + bot.name).on('click', { name: bot.name }, handleBuddyClick);
+		buddyInSound.play();
 		incrementBuddyCount();
 	}
 };
@@ -130,12 +140,19 @@ const getName = () => {
 	const adj = choose(adjectives);
 	const noun = choose(nouns);
 	let number = '';
-	if (Math.random() > 0.3) {
-		number = Math.floor(Math.random() * 10000).toString();
+
+	if (Math.random() > 0.2) {
+		number = Math.floor(Math.random() * 10).toString();
+	}
+	if (Math.random() > 0.5) {
+		number += Math.floor(Math.random() * 10).toString();
+	}
+	if (Math.random() > 0.8) {
+		number += Math.floor(Math.random() * 10).toString();
 	}
 
 	const name = adj + noun + number;
-	if (name.length < 5) {
+	if (name.length < 6) {
 		return getName();
 	}
 	return name;
@@ -182,9 +199,9 @@ const addNewBuddy = () => {
 	if (buddyCount < totalBuddies) {
 		const bot = makeDistinctBot(emptyBot());
 		addToBuddyList([bot]);
-
-		const delay = random(15000, 60000);
 	}
+
+	const delay = random(5000, 7000 * buddyCount);
 	setTimeout(addNewBuddy, delay);
 }
 
