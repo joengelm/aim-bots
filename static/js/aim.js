@@ -4,6 +4,9 @@ const colors = ['blue', 'red', 'green', 'purple', 'violet', 'brown', 'maroon', '
 const voices = ['UK English Male', 'UK English Female', 'US English Female'];
 const prompts = ['What\'s your favorite TV show?', 'What are you doing?', 'I don\'t like you.', 'What is the meaning of life?', 'I\'m playing Sim City.', 'Do you play Roller Coaster Tycoon?', 'Where are you from?', 'Do you like sushi?', 'I don\'t like talking to strangers.', 'The internet scares me', 'I need a friend', 'Where are you from?', 'A/s/l?', 'Will you marry me?', 'Tell me a bedtime story', 'How are you?', 'What is your social security number?', 'Do i know u?', 'What is today\'s date?', 'Tell me a joke', 'I don\'t like you.', 'I\'m sleepy', 'Hey ;)', 'Sup', 'Yo', 'Howdy!', 'Hallo', 'Guten Tag.', 'Hola.', 'Bonjour.', 'Good morning, sunshine.', 'ayy lmao', 'Buon giorno!', 'Have you been to Olive Garden?', 'I hate my parents', 'My girlfriend dumped me', 'My boyfriend dumped me', 'I\'m so hungry!!', 'I\'m STARVING', 'U up?', 'You up?', '...', '...hi.', 'HEY.', 'Como estas?', 'Comment allez-vous?', 'Wie geht\'s?', 'Ca va?', 'Quoi de neuf ???', 'Ugh.', '*opens eyes*', '*awkwardly stares*', '*stares deeply into your eyes*'];
 
+const dialupSound = new Audio('static/sound/dialup.mp3');
+const welcomeSound = new Audio('static/sound/welcome.mp3');
+const goodbyeSound = new Audio('static/sound/goodbye.mp3');
 const messageSound = new Audio('static/sound/im.mp3');
 const buddyInSound = new Audio('static/sound/buddy_in.mp3');
 const buddyOutSound = new Audio('static/sound/buddy_out.mp3');
@@ -203,7 +206,7 @@ const addNewBuddy = () => {
 
 	const delay = random(5000, 7000 * buddyCount);
 	setTimeout(addNewBuddy, delay);
-}
+};
 
 const main = (prompt) => {
 	bot1 = makeDistinctBot(emptyBot());
@@ -215,9 +218,37 @@ const main = (prompt) => {
 	$("#buddy").draggable();
 	$("#buddy").on('mousedown', { id: 'buddy' }, bringToTop);
 
-	makeChatWith(bot1, bot2);
+	setTimeout(() => { makeChatWith(bot1, bot2); }, 2000);
 
-	setTimeout(addNewBuddy, 10000);
+	setTimeout(addNewBuddy, 15000);
 };
 
-setTimeout(() => { main('Hello.') }, 2000);
+const openAIM = () => {
+	const isAlreadyOpen = $('#buddy').is(':visible');
+
+	if (!isAlreadyOpen) {
+		const dialupHTML = '<img id="dialup" style="position: absolute; margin: auto; z-index: 1000000;" src="static/img/dialup1.png"/>';
+		$('#desktop').append(dialupHTML);
+
+		dialupSound.play();
+
+		setTimeout(() => {
+			document.getElementById('dialup').src = 'static/img/dialup2.png';
+			setTimeout(() => {
+				document.getElementById('dialup').src = 'static/img/dialup3.png';
+				setTimeout(() => {
+					const element = document.getElementById('dialup');
+					element.parentNode.removeChild(element);
+
+					welcomeSound.play();
+
+					main('Hello.');
+					$('#buddy').show();
+				}, 2000);
+			}, 1000);
+		}, 27000);
+	}
+};
+
+$('#aimIcon').on('click', openAIM);
+$('#buddyCloseButton').on('click', () => { goodbyeSound.play(); $('#buddy').hide(); })

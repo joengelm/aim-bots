@@ -1,30 +1,32 @@
 <link rel="stylesheet" href="static/css/style.css">
 
-<div id="desktop" class="noselect">
-    <div id="icons" class="is-disabled">
-      <div class="icon drop" id="recycle">
-        <img class="iconImage" id="recycleIcon" src="static/img/empty_recycle_bin_w_text.png">
-        
-      </div>
+<div id="desktop">
+  <div id="icons">
+    <div class="icon drop" id="recycleIcon">
+      <img class="iconImage" src="static/img/empty_recycle_bin_w_text.png">
     </div>
+    <div class="icon" id="aimIcon">
+      <img class="iconImage" src="static/img/aim_icon_w_text.png">
+    </div>
+  </div>
 
-    <div id="buddy" class="noselect">
-        <img src="static/img/buddy_list.png">
-        <button class="closeButton"></button>
-        <div id="buddyList">
-            <p class="buddyTitle">▾ <mark>Buddies <span id="buddyCount56"></span></mark></p>
-        </div>
+  <div id="buddy" class="noselect" style="display: none;">
+    <img src="static/img/buddy_list.png">
+    <button class="closeButton" id="buddyCloseButton"></button>
+    <div id="buddyList">
+      <p class="buddyTitle">▾ <mark>Buddies <span id="buddyCount56"></span></mark></p>
     </div>
+  </div>
 
-    <div id="taskbar" class="noselect is-disabled">
-        <div id="taskbarAccent"></div>
-        <div id="startButton" class="taskbarItem">
-            <img src="static/img/startbutton.gif" style="height:25px;">
-        </div>
-        <div id="clock" class="taskbarItem">
-            <img src="static/img/clock.gif">
-        </div>
+  <div id="taskbar" class="noselect is-disabled">
+    <div id="taskbarAccent"></div>
+    <div id="startButton" class="taskbarItem">
+      <img src="static/img/startbutton.gif" style="height:25px;">
     </div>
+    <div id="clock" class="taskbarItem">
+      <img src="static/img/clock.gif">
+    </div>
+  </div>
 </div>
 
 <script src='static/js/jquery-1.11.1.min.js'></script>
